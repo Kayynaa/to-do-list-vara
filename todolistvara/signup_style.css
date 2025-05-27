@@ -1,0 +1,222 @@
+/* Import font 'Quicksand' dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* Reset dasar */
+* {
+    font-family: 'Quicksand', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('bg.jpg'); /* Pastikan path ini benar */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* OVERLAY PUTIH SANGAT TRANSPARAN AGAR BACKGROUND BUNGA LEBIH TERLIHAT (Sama persis dengan login_style.css) */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.05); /* KUNCI: 5% transparan */
+    backdrop-filter: blur(3px); /* Efek blur halus */
+    z-index: 0;
+}
+
+/* KOTAK PUTIH SIGN UP YANG TRANSAparan (Sama persis dengan login_style.css) */
+.signup-container { /* Tetap gunakan class .signup-container */
+    background-color: rgba(255, 255, 255, 0.8); /* KUNCI: 80% transparan, SAMA DENGAN LOGIN */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    width: 95%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    z-index: 1;
+}
+
+.header-info {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* TEKS "Join Us!" (WARNA UNGU) - Sama persis dengan h1 di login_style.css */
+.header-info h1 {
+    color: #6c63ff; /* KUNCI: Ungu */
+    font-size: 3.5em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.header-info p {
+    color: #555;
+    font-size: 1.1em;
+}
+
+.signup-title { /* Menggunakan class .signup-title */
+    font-size: 2.2em;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.signup-form { /* Menggunakan class .signup-form */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+/* INPUT FIELD (Transparan) - Sama persis dengan login_style.css */
+.input-group input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid rgba(209, 209, 209, 0.6); /* KUNCI: Border transparan */
+    border-radius: 10px;
+    font-size: 1em;
+    color: #333;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.6); /* KUNCI: 60% transparan */
+    transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #6c63ff; /* Fokus dengan border UNGU */
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(108, 99, 255, 0.2);
+}
+
+.input-group input::placeholder {
+    color: #777;
+}
+
+.input-group .icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 1.1em;
+}
+
+/* TOMBOL "Sign Up" (Warna Ungu) - Sama persis dengan login_style.css */
+.signup-button { /* Menggunakan class .signup-button */
+    background-color: #6c63ff; /* KUNCI: Ungu */
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px;
+}
+
+.signup-button:hover {
+    background-color: #5548c8;
+    transform: translateY(-2px);
+}
+
+/* LINK "Login here" (Warna Biru Terang & Garis Bawah) - Sama persis dengan signup-text di login_style.css */
+.login-text { /* Menggunakan class .login-text */
+    font-size: 1em;
+    color: #333;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.login-text a.login-link { /* Menggunakan class .login-link */
+    color: #4a90e2; /* KUNCI: Biru terang */
+    font-weight: 700;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.login-text a.login-link:hover {
+    color: #3a7bd2;
+}
+
+/* Pesan error dan sukses (styling tetap sama) */
+.message {
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+    width: 100%;
+    font-size: 0.95em;
+    font-weight: 600;
+    opacity: 1;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+.message.hide {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.message.error {
+    background-color: rgba(255, 229, 229, 0.85);
+    color: #b00020;
+    border: 1px solid rgba(255, 204, 204, 0.8);
+}
+.message.success-message {
+    background-color: rgba(224, 249, 224, 0.85);
+    color: #2e7d32;
+    border: 1px solid rgba(204, 255, 204, 0.8);
+}
+
+/* Responsivitas (styling tetap sama) */
+@media (max-width: 480px) {
+    .signup-container {
+        padding: 30px;
+        max-width: 95%;
+        gap: 20px;
+    }
+    .header-info h1 {
+        font-size: 3em;
+    }
+    .signup-title {
+        font-size: 2.2em;
+    }
+    .input-group input {
+        font-size: 0.95em;
+        padding: 12px 15px 12px 45px;
+    }
+    .input-group .icon {
+        font-size: 1.1em;
+        left: 15px;
+    }
+    .signup-button {
+        font-size: 1.1em;
+        padding: 12px 20px;
+    }
+    .login-text {
+        font-size: 0.9em;
+    }
+    .login-text a.login-link {
+        font-size: 0.9em;
+    }
+}

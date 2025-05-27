@@ -1,0 +1,241 @@
+/* Import font 'Quicksand' dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* Reset dasar */
+* {
+    font-family: 'Quicksand', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Pastikan URL gambar 'bg.jpg' sudah benar dan ada di folder yang sama */
+    background-image: url('bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Penyesuaian: Overlay putih sangat transparan agar background bunga lebih terlihat */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.05); /* Sangat transparan (5%) - bunga akan sangat jelas */
+    backdrop-filter: blur(3px); /* Efek blur yang lebih halus pada background gambar */
+    z-index: 0; /* Pastikan ini di bawah login-container */
+}
+
+.login-container {
+    /* Background putih yang lebih transparan (80%) */
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 15px;
+    /* Bayangan tetap sedikit ringan */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    width: 95%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; <-- Hapus ini agar elemen bisa rata kiri/kanan */
+    gap: 25px;
+    z-index: 1;
+}
+
+.header-info {
+    text-align: center; /* Tetap di tengah */
+    margin-bottom: 10px;
+}
+
+.header-info h1 {
+    color: #6c63ff; /* Biru tema */
+    font-size: 3.5em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.header-info p {
+    color: #555; /* Warna teks info */
+    font-size: 1.1em;
+}
+
+.login-title {
+    font-size: 2.2em; /* Kembali ke ukuran awal */
+    font-weight: 700;
+    color: #222; /* Warna teks gelap */
+    margin-bottom: 5px;
+    text-align: center; /* Pastikan judul login di tengah */
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    /* Border input yang lebih transparan */
+    border: 1px solid rgba(209, 209, 209, 0.6);
+    border-radius: 10px;
+    font-size: 1em;
+    color: #333;
+    outline: none;
+    /* Background input lebih transparan (60%) */
+    background-color: rgba(255, 255, 255, 0.6);
+    transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #6c63ff; /* Tetap biru tema saat fokus */
+    background-color: rgba(255, 255, 255, 0.8); /* Sedikit lebih solid saat fokus */
+    box-shadow: 0 0 8px rgba(108, 99, 255, 0.2);
+}
+
+.input-group input::placeholder {
+    color: #777;
+}
+
+.input-group .icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 1.1em;
+}
+
+.forgot-password-link {
+    text-align: right;
+    font-size: 0.95em;
+    color: #4a90e2; /* Biru terang yang tidak ngejreng */
+    text-decoration: underline; /* Selalu ada garis bawah */
+    margin-top: -5px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.forgot-password-link:hover {
+    color: #3a7bd2; /* Warna hover sedikit lebih gelap */
+}
+
+.login-button {
+    background-color: #6c63ff; /* Kembali ke biru tema solid untuk tombol utama */
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px;
+}
+
+.login-button:hover {
+    background-color: #5548c8;
+    transform: translateY(-2px);
+}
+
+.social-login {
+    display: none; /* Tetap disembunyikan */
+}
+
+/* --- Sign Up Link --- */
+.signup-text {
+    font-size: 1em;
+    color: #333; /* Warna teks "Don't have account?" lebih gelap */
+    margin-top: 25px;
+    text-align: center; /* Tetap di tengah */
+}
+
+.signup-text a.signup-link {
+    color: #4a90e2; /* Biru terang yang tidak ngejreng */
+    font-weight: 700;
+    text-decoration: underline; /* Selalu ada garis bawah */
+    transition: color 0.3s ease;
+}
+
+.signup-text a.signup-link:hover {
+    color: #3a7bd2; /* Warna hover sedikit lebih gelap */
+}
+
+/* Pesan error dan sukses */
+.message {
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+    width: 100%;
+    font-size: 0.95em;
+    font-weight: 600;
+    opacity: 1;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+.message.hide {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.message.error {
+    background-color: rgba(255, 229, 229, 0.85);
+    color: #b00020;
+    border: 1px solid rgba(255, 204, 204, 0.8);
+}
+.message.success-message {
+    background-color: rgba(224, 249, 224, 0.85);
+    color: #2e7d32;
+    border: 1px solid rgba(204, 255, 204, 0.8);
+}
+
+/* Responsivitas */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px;
+        max-width: 95%;
+        gap: 20px;
+    }
+    .header-info h1 {
+        font-size: 3em;
+    }
+    .login-title {
+        font-size: 2.2em;
+    }
+    .input-group input {
+        font-size: 0.95em;
+        padding: 12px 15px 12px 45px;
+    }
+    .input-group .icon {
+        font-size: 1.1em;
+        left: 15px;
+    }
+    .login-button {
+        font-size: 1.1em;
+        padding: 12px 20px;
+    }
+    .forgot-password-link,
+    .signup-text,
+    .signup-text a.signup-link {
+        font-size: 0.9em;
+    }
+}

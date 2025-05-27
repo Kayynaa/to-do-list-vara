@@ -1,0 +1,578 @@
+/* Import font 'Quicksand' dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* Reset dasar untuk konsistensi di semua browser */
+* {
+    font-family: 'Quicksand', sans-serif; /* Gunakan font Quicksand */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+   background-image: url('bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* Efek blur pada body saat modal terbuka */
+body.modal-open .container {
+    filter: blur(5px);
+    pointer-events: none; /* Mencegah interaksi dengan elemen di belakang modal */
+    user-select: none; /* Mencegah seleksi teks */
+}
+
+/* ===== KONTEN UTAMA (CONTAINER) ===== */
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* KUNCI: 80% transparan, SAMA DENGAN LOGIN */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    width: 95%;
+    max-width: 700px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Jarak antar bagian di dalam container */
+    position: relative; /* PENTING: Diubah menjadi relative agar FAB bisa diposisikan di dalamnya */
+    min-height: 70vh; /* Tinggi minimal container */
+    overflow: hidden; /* Penting untuk FAB agar tidak keluar dari container saat scroll */
+    transition: filter 0.3s ease-out; /* Transisi untuk efek blur */
+    z-index: 1;
+}
+
+/* ===== HEADER (Hai, Username! & Logout) ===== */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Mengatur item ke atas */
+    margin-bottom: 0px; /* Jarak lebih kecil */
+}
+
+.main-header h1 {
+    font-size: 2.8em; /* Ukuran font diperbesar agar lebih besar dari To-do list */
+    font-weight: 700; /* Lebih tebal untuk efek bagus */
+    color: #6c63ff; /* Warna biru */
+    margin: 0; /* Hilangkan margin default h1 */
+    text-align: left; /* Rata kiri */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Tambah bayangan halus */
+    line-height: 1.2; /* Kerapatan baris */
+}
+
+.logout-link {
+    background-color: #ff6b6b; /* Warna merah untuk logout */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+    flex-shrink: 0; /* Jangan menyusut */
+}
+.logout-link:hover {
+    background-color: #e63946;
+    text-decoration: none;
+}
+
+/* ===== MAIN TITLE (To-do list) ===== */
+.main-title {
+    font-size: 2em; /* Ukuran lebih kecil dari Hai, Username! */
+    font-weight: 700;
+    color: #2b2d42;
+    margin-top: -10px; /* Menggeser lebih ke atas untuk merapatkan */
+    margin-bottom: 0px; /* Jarak lebih kecil lagi */
+    text-align: left; /* Rata kiri sesuai desain */
+    line-height: 1; /* Kerapatan baris */
+}
+
+/* ===== DATE DISPLAY (Today, Tanggal) ===== */
+.date-display {
+    display: flex;
+    justify-content: flex-end; /* Rata kanan */
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.date-display .today-text {
+    font-weight: 600;
+    color: #2b2d42;
+    font-size: 1.1em;
+}
+
+.date-display .current-date {
+    font-size: 1em;
+    color: #888;
+}
+
+/* ===== TAB NAVIGATION (All tasks) ===== */
+.tab-navigation {
+    display: flex;
+    justify-content: center; /* Tengah untuk "All tasks" */
+    margin-bottom: 10px; /* Jarak lebih kecil */
+    border-bottom: none; /* Hapus garis bawah */
+    padding-bottom: 0; /* Hapus padding bawah */
+}
+
+.tab-navigation .tab-item {
+    padding: 8px 15px; /* Tambahkan padding untuk kotak */
+    border-radius: 15px; /* Tambahkan border-radius untuk kotak */
+    font-weight: 600;
+    background-color: #6c63ff; /* Latar belakang biru */
+    color: white; /* Warna teks putih */
+    cursor: default; /* Kursor default, bukan pointer */
+    transition: none; /* Hapus transisi karena tidak ada efek hover */
+    width: 100%; /* Buat full width */
+    text-align: center; /* Tengah teks di dalam kotak */
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar form { /* Override form default flex-direction */
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0; /* Hilangkan gap bawaan form */
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e7ff; /* Border biru soft */
+    border-radius: 15px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-bar input::placeholder {
+    color: #aaa;
+}
+
+.search-bar input:focus {
+    border-color: #6c63ff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(108, 99, 255, 0.2);
+}
+
+/* ===== TASK LIST CONTAINER (untuk scroll) ===== */
+.task-list-wrapper {
+    flex-grow: 1; /* Agar mengambil sisa ruang vertikal */
+    overflow-y: auto; /* Membuat daftar task bisa discroll */
+    padding-right: 10px; /* Padding untuk scrollbar agar tidak menutupi konten */
+    margin-right: -10px; /* Mengkompensasi padding agar tidak ada scrollbar ganda */
+    padding-bottom: 80px; /* Ruang untuk FAB di bawah */
+}
+
+/* ===== TASK LIST (UL/LI) ===== */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Jarak antar item task */
+}
+
+.task-item {
+    background-color: #fdfdff; /* Latar belakang item task */
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Bayangan ringan */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s ease;
+    border-left: 5px solid transparent; /* Tambahkan border kiri untuk status */
+}
+
+.task-item:hover {
+    transform: translateY(-3px); /* Efek hover ringan */
+}
+
+.task-item .status-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Jangan menyusut */
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.task-item.completed .status-circle {
+    background-color: #6c63ff; /* Warna biru saat completed */
+    border-color: #6c63ff;
+    color: white; /* Warna centang */
+    font-size: 1.2em;
+}
+
+.task-item .task-details {
+    flex-grow: 1; /* Mengambil sisa ruang */
+    display: flex;
+    flex-direction: column;
+}
+
+.task-item .task-name {
+    font-weight: 600;
+    color: #2b2d42;
+    font-size: 1.1em;
+}
+
+.task-item .task-deadline {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 5px; /* Menurunkan tulisan deadline sedikit */
+}
+
+/* --- Perubahan untuk Tata Letak Status dan Aksi (Sudah benar dari sebelumnya) --- */
+.task-item .task-status-actions {
+    display: flex;
+    align-items: center; /* Sejajarkan item secara vertikal */
+    gap: 10px; /* Jarak antara status dan actions */
+    flex-shrink: 0; /* Mencegah div ini menyusut */
+    margin-left: auto; /* Mendorong group ini ke kanan */
+}
+
+.task-item .task-status {
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 15px; /* Bentuk pil/rounded */
+    font-size: 0.8em;
+    white-space: nowrap; /* Mencegah teks status pecah baris */
+    text-transform: uppercase; /* Membuat teks jadi CAPSLOCK */
+}
+
+/* Style untuk status 'SELESAI' */
+.task-item.completed {
+    opacity: 0.7; /* Sedikit redup jika sudah selesai */
+    border-left-color: #28a745; /* Hijau untuk border kiri */
+}
+.task-item.completed .task-status {
+    background-color: #e6ffe6; /* Background hijau muda */
+    color: #28a745; /* Teks hijau tua */
+}
+.task-item.completed .task-name,
+.task-item.completed .task-deadline {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+/* Style untuk status 'BELUM DIKERJAKAN' (pending) */
+.task-item.pending {
+    border-left-color: #ffc107; /* Kuning untuk border kiri */
+}
+.task-item.pending .task-status {
+    background-color: #fff8e1; /* Background kuning muda */
+    color: #856404; /* Teks kuning tua */
+}
+
+/* Style untuk status 'TERLAMBAT' */
+.task-item.late {
+    border-left-color: #dc3545; /* Merah untuk border kiri */
+}
+.task-item.late .task-status {
+    background-color: #ffebe6; /* Background merah muda */
+    color: #dc3545; /* Teks merah tua */
+}
+/* --- Akhir Penyesuaian Status Text --- */
+
+
+.task-item .task-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    align-items: center; /* Penting: Sejajarkan ikon/tombol aksi di tengah vertikal */
+}
+
+.task-item .task-actions a {
+    color: #6c63ff;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 5px 8px; /* Padding untuk ikon agar terlihat lebih baik */
+    border-radius: 8px;
+    background-color: #e0e7ff;
+    transition: background-color 0.3s;
+    /* Tambahkan untuk memastikan ikon/tombol di tengah */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-item .task-actions a:hover {
+    background-color: #c9d6ff;
+    text-decoration: none;
+}
+
+/* Gaya khusus untuk ikon sampah */
+.task-item .task-actions a .fas.fa-trash-alt {
+    color: #ff6b6b; /* Warna merah untuk ikon sampah */
+    font-size: 1.1em; /* Ukuran ikon sedikit lebih besar */
+}
+.task-item .task-actions a:hover .fas.fa-trash-alt {
+    color: #e63946; /* Warna merah hover */
+}
+
+
+/* ===== FLOATING ACTION BUTTON (FAB) ===== */
+.fab {
+    position: absolute; /* Posisi absolut relatif terhadap .container */
+    bottom: 20px; /* Jarak dari bawah container */
+    right: 20px; /* Pindah ke pojok kanan bawah container */
+    background-color: #6c63ff;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    font-weight: 300; /* Untuk tanda plus yang lebih tipis */
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 1000; /* Pastikan di atas elemen lain */
+}
+
+.fab:hover {
+    background-color: #5548c8;
+    transform: translateY(-3px); /* Efek hover ringan */
+}
+
+/* ===== MODAL / ADD TASK FORM OVERLAY ===== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Overlay gelap */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Gaya untuk modal tambah task */
+.add-task-modal {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    position: relative; /* Untuk posisi tombol close */
+}
+
+.modal-overlay.show .add-task-modal {
+    transform: translateY(0);
+}
+
+/* Gaya untuk modal edit task */
+.edit-task-modal {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px; /* Lebar medium landscape */
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    position: relative;
+    display: flex; /* Menggunakan flexbox untuk layout internal */
+    flex-direction: column;
+    gap: 15px; /* Jarak antar elemen di modal */
+}
+
+.modal-overlay.show .edit-task-modal {
+    transform: translateY(0);
+}
+
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.modal-close-btn:hover {
+    color: #333;
+}
+
+/* Gaya umum untuk H2 di modal */
+.add-task-modal h2,
+.edit-task-modal h2 { /* Terapkan gaya ke kedua modal */
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    text-align: center;
+    color: #2b2d42;
+}
+
+/* Gaya umum untuk form di modal */
+.add-task-modal form,
+.edit-task-modal form { /* Terapkan gaya ke kedua form modal */
+    flex-direction: column; /* Form di modal tampil vertikal */
+    align-items: stretch;
+    gap: 15px;
+}
+
+/* Gaya umum untuk input di modal */
+.add-task-modal input[type="text"],
+.add-task-modal input[type="date"],
+.edit-task-modal input[type="text"],
+.edit-task-modal input[type="date"] {
+    width: 100%; /* Input modal full width */
+    padding: 12px;
+    border: 2px solid #e0e7ff;
+    border-radius: 12px;
+    font-size: 1em;
+}
+
+.add-task-modal input::placeholder,
+.edit-task-modal input::placeholder {
+    color: #aaa;
+}
+
+/* Gaya umum untuk label di modal edit */
+.edit-task-modal label {
+    font-weight: 600;
+    color: #2b2d42;
+    margin-bottom: 5px;
+    display: block; /* Pastikan label mengambil baris penuh */
+}
+
+/* Styling untuk tombol deadline di modal (dihapus dari HTML) */
+.modal-deadline-buttons {
+    display: none;
+}
+
+/* Gaya umum untuk tombol submit di modal */
+.add-task-modal button[type="submit"],
+.edit-task-modal button[type="submit"] { /* Terapkan gaya ke kedua tombol submit modal */
+    width: 100%;
+    margin-top: 15px; /* Jarak dari input date */
+    background-color: #6c63ff; /* Warna tombol sesuai tema */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+.add-task-modal button[type="submit"]:hover,
+.edit-task-modal button[type="submit"]:hover { /* Terapkan gaya hover ke kedua tombol submit modal */
+    background-color: #5548c8;
+}
+
+/* ===== NOTIFIKASI (ERROR & SUCCESS) ===== */
+.message {
+    padding: 15px;
+    width: 95%;
+    max-width: 600px;
+    border-radius: 12px;
+    margin: 20px auto;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    opacity: 1; /* Default visible */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Transisi lebih cepat */
+    position: fixed; /* Notifikasi di atas semua */
+    top: 20px; /* Posisi dari atas */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002; /* Lebih tinggi dari modal */
+}
+.message.hide {
+    opacity: 0;
+    transform: translateY(-20px) translateX(-50%); /* Efek slide up saat menghilang */
+    pointer-events: none; /* Agar tidak bisa diklik saat transisi */
+}
+.message.success {
+    background-color: #e0f9e0; /* Latar belakang hijau muda */
+    color: #2e7d32; /* Teks hijau gelap */
+    border: 1px solid #ccffcc;
+}
+.message.error {
+    background-color: #ffe5e5; /* Latar belakang merah muda */
+    color: #b00020; /* Teks merah gelap */
+    border: 1px solid #ffcccc;
+}
+
+
+/* ===== RESPONSIVITAS UMUM ===== */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    .main-header h1 {
+        font-size: 1.8em; /* Ukuran font diperbesar lagi di mobile */
+    }
+    .main-title {
+        font-size: 1.5em; /* Ukuran disesuaikan untuk mobile */
+    }
+    .date-display .today-text,
+    .date-display .current-date {
+        font-size: 0.9em;
+    }
+    .fab {
+        width: 50px;
+        height: 50px;
+        font-size: 2em;
+        bottom: 20px; /* Jarak dari bawah di mobile */
+        right: 20px; /* Tetap di kanan bawah */
+        left: auto; /* Hilangkan left: 50% */
+        transform: none; /* Hilangkan transformX */
+    }
+    .add-task-modal,
+    .edit-task-modal { /* Terapkan responsivitas ke kedua modal */
+        padding: 20px;
+        border-radius: 15px;
+    }
+    /* Responsivitas untuk layout task-item di mobile */
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .task-item .task-details {
+        width: 100%; /* Pastikan details mengambil penuh */
+    }
+    .task-item .task-status-actions {
+        width: 100%;
+        justify-content: flex-end; /* Dorong ke kanan di mobile */
+        margin-top: 10px; /* Beri sedikit jarak dari task-details */
+        gap: 15px; /* Jarak antar status dan actions */
+    }
+}
